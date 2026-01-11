@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alke Wallet - Login</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-light">
+
+    <div class="container vh-100 d-flex justify-content-center align-items-center">
+        
+        <div class="col-12 col-md-6 col-lg-4">
+            
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body p-5">
+                    
+                    <div class="text-center mb-4">
+                        <img src="assets/img/wallet-money-payment.svg" alt="Alke Wallet Logo" class="img-fluid mb-3" style="max-height: 80px;">
+                        <h3 class="font-weight-bold">Alke Wallet</h3>
+                        <p class="text-muted">Inicia sesión para continuar</p>
+                    </div>
+
+                    <form id="loginForm" novalidate>
+                        
+                        <div class="form-group">
+                            <label for="email" class="font-weight-bold text-muted small">CORREO ELECTRÓNICO</label>
+                            <input type="email" class="form-control form-control-lg" id="email" placeholder="nombre@ejemplo.com" required>
+                            <div class="invalid-feedback">
+                                Por favor ingresa un correo válido.
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="font-weight-bold text-muted small">CONTRASEÑA</label>
+                            <input type="password" class="form-control form-control-lg" id="password" placeholder="********" required>
+                            <div class="invalid-feedback">
+                                La contraseña no puede estar vacía.
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-lg mt-4 shadow-sm">
+                            Ingresar
+                        </button>
+
+                    </form>
+                    </div>
+                
+                <div class="card-footer text-center py-3 bg-white border-0">
+                    <small>¿No tienes cuenta? <a href="#" class="font-weight-bold">Regístrate</a></small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/auth.js"></script>
+
+</body>
+</html>

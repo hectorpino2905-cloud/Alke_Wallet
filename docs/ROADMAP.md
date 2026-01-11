@@ -23,12 +23,12 @@ alke-wallet/
 │   ├── auth.js             # Lógica de Login y Sesión
 │   └── app.js              # Lógica de Billetera (Saldo, Transacciones)
 │
-├── index.html              # Landing / Redirección
-├── login.html              # Inicio de sesión [cite: 65]
-├── menu.html               # Dashboard principal [cite: 66]
-├── deposit.html            # Pantalla de depósitos [cite: 78]
-├── sendmoney.html          # Pantalla de transferencias [cite: 79]
-├── transactions.html       # Historial de movimientos [cite: 80]
+├── index.html              # Landing/Redirección
+├── login.html              # Inicio de sesión
+├── menu.html               # Dashboard principal
+├── deposit.html            # Pantalla de depósitos
+├── sendmoney.html          # Pantalla de transferencias
+├── transactions.html       # Historial de movimientos
 └── ROADMAP.md              # Este archivo
 ```
 ### Contrato de Datos (LocalStorage)
@@ -79,7 +79,7 @@ alke-wallet/
 - [ ] **JS**: Guardar sesión en ``localStorage``.
 - [ ] **Seguridad**: Script que redirige al login si se intenta entrar a ``menu.html`` sin sesión.
 
-**TICKET 2: Billetera Core**
+**TICKET 2: Billetera**
 
 - [ ] **UI**: Maquetar `menu.html` (Navbar, Tarjetas de resumen).
 - [ ] **UI**: Maquetar `deposit.html` (Formulario de ingreso).

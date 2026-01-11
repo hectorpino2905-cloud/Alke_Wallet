@@ -4,11 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--Cosas que hacen que esto funcione , i guess-->
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
     <title>Menu</title>
 </head>
 <body>
+    <nav class="navbar navbar-dark bg-dark">
+        <span class="navbar-brand mb-0 h1">Alke Wallet</span>
+        <button id="logoutBtn" class="btn btn-outline-light btn-sm">
+            Cerrar sesión
+        </button>
+    </nav>
+    <div class="container mt-4">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+            <h6 class="text-muted">Saldo disponible</h6>
+                <h2 id="wallet-balance" class="font-weight-bold">$0</h2>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <h5 class="card-title">Depositar</h5>
+        <p class="card-text">Agrega dinero a tu billetera</p>
+        <a href="deposit.html" class="btn btn-primary btn-block">
+          Ir a depósito
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <h5 class="card-title">Enviar dinero</h5>
+        <p class="card-text">Transfiere a otros usuarios</p>
+        <a href="#" class="btn btn-secondary btn-block">
+          Próximamente
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4 mb-3">
+    <div class="card h-100">
+      <div class="card-body text-center">
+        <h5 class="card-title">Movimientos</h5>
+        <p class="card-text">Historial de transacciones</p>
+        <a href="#" class="btn btn-secondary btn-block">
+          Ver historial
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
 
     
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

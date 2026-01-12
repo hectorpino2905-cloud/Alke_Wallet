@@ -1,227 +1,88 @@
-// Security check: this script runs immediately when the page loads.
-
-// Check if user is logged in
+// ==========================================
+//           Security / Session
+// ==========================================
 const userSession = localStorage.getItem('alke_user');
 
-// If no session exists, redirect to login
 if (!userSession) {
-    console.warn("No active session found. Redirecting to login...");
     window.location.href = 'login.html';
 }
 
-// If session exists, parse the data for use in the app
 const user = JSON.parse(userSession);
-console.log("Welcome back, " + user.name);
 
-// -- APP LOGIC STARTS HERE --
-$(document).ready(function() {
-    // Here the Dashboard will be implemented
-});
+// ==========================================
+//           App logic (JQuery)
+// ==========================================
 
 $(document).ready(function () {
 
-  const walletRaw = localStorage.getItem("alke_wallet");
+  // --- Dashboard Initialization ---
+
+  // Show user name in navbar (if exists)
+  $('#user-name-display').text(user.name);
+
+  let walletRaw = localStorage.getItem("alke_wallet");
+  let wallet;
 
   if (!walletRaw) {
-    console.warn("No existe la wallet en localStorage");
-    return;
+      // Fallback if wallet doesn't exist.
+      wallet = { balance: 0, transactions: [] };
+      localStorage.setItem("alke_wallet", JSON.stringify(wallet));
+  } else {
+      wallet = JSON.parse(walletRaw);
   }
 
-  const wallet = JSON.parse(walletRaw);
-  const balance = wallet.balance;
-
-  $("#wallet-balance").text(`$${balance}`);
+  // Update balance in DOM
+  $("#wallet-balance").text(`$${wallet.balance.toLocaleString('es-CL')}`);
 
 });
 
 
-$(document).ready(function () {
+    // --- Deposit Functionality ---
+    
+    // Listen for the 'submit' event on the deposit form
+    $("#deposit-form").on("submit", function (event) {
+      event.preventDefault(); // Prevents the page from reloading
 
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault(); // evita recarga de página
+      // 1. Get data
+      const amountInput = $("#deposit-amount");
+      const amount = Number(amountInput.val());
 
-    console.log("Formulario de depósito enviado");
+      // 2. Basic validations
+      if (amount <= 0 || isNaN(amount)) {
+          alert("Por favor, Ingresa un número mayor a 0");
+          return;
+      }
+
+      // 3. Get current wallet data (To ensure they are fresh)
+      // Re-read localStorage in case it changed in another tab
+      const currentWallet = JSON.parse(localStorage.getItem("alke_wallet"));
+      
+      // 4. Add to balance
+      currentWallet.balance += amount;
+
+      // 5. Add record to history (Useful for Ticket 4)
+      const transaction = {
+          type: "deposit",
+          amount: amount,
+          date: new Date().toLocaleDateString(),
+          description: "Deposito realizado"
+      };
+      // If the array doesn't exist, create it
+      if(!currentWallet.transactions) currentWallet.transactions = [];
+      currentWallet.transactions.push(transaction);
+
+      // 6. Save changes (Persistence)
+      localStorage.setItem("alke_wallet", JSON.stringify(currentWallet));
+
+      // 7. UI Feedback
+      $("#deposit-alert").removeClass("d-none"); // Show green alert
+      amountInput.val(""); // Clear form
+      
+      // Visually update balance if on the same screen 
+      $("#wallet-balance").text(`$${currentWallet.balance.toLocaleString('es-CL')}`);
   });
 
-});
-
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    console.log("Monto válido ingresado:", amount);
-  });
-
-});
-
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    const walletRaw = localStorage.getItem("alke_wallet");
-
-    if (!walletRaw) {
-      alert("No se encontró la billetera");
-      return;
-    }
-
-    const wallet = JSON.parse(walletRaw);
-
-    console.log("Wallet actual:", wallet);
-    console.log("Balance actual:", wallet.balance);
-    console.log("Monto a depositar:", amount);
-  });
-
-});
-
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    const walletRaw = localStorage.getItem("alke_wallet");
-
-    if (!walletRaw) {
-      alert("No se encontró la billetera");
-      return;
-    }
-
-    const wallet = JSON.parse(walletRaw);
-
-    const previousBalance = wallet.balance;
-    wallet.balance = wallet.balance + amount;
-
-    console.log("Balance anterior:", previousBalance);
-    console.log("Monto depositado:", amount);
-    console.log("Nuevo balance:", wallet.balance);
-  });
-
-});
-///Aca se guardan los cambios en el localStorage 
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    const walletRaw = localStorage.getItem("alke_wallet");
-
-    if (!walletRaw) {
-      alert("No se encontró la billetera");
-      return;
-    }
-
-    const wallet = JSON.parse(walletRaw);
-
-    const previousBalance = wallet.balance;
-    wallet.balance = wallet.balance + amount;
-
-    localStorage.setItem("alke_wallet", JSON.stringify(wallet));
-
-    console.log("Balance anterior:", previousBalance);
-    console.log("Monto depositado:", amount);
-    console.log("Nuevo balance guardado:", wallet.balance);
-  });
-
-});
-
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    const walletRaw = localStorage.getItem("alke_wallet");
-
-    if (!walletRaw) {
-      alert("No se encontró la billetera");
-      return;
-    }
-
-    const wallet = JSON.parse(walletRaw);
-
-    wallet.balance = wallet.balance + amount;
-
-    localStorage.setItem("alke_wallet", JSON.stringify(wallet));
-
-    // 👉 PASO 6: mostrar alert
-    $("#deposit-alert").removeClass("d-none");
-
-    console.log("Depósito realizado con éxito");
-  });
-
-});
-
-$(document).ready(function () {
-
-  $("#deposit-form").on("submit", function (event) {
-    event.preventDefault();
-
-    const amount = Number($("#deposit-amount").val());
-
-    if (amount <= 0 || isNaN(amount)) {
-      alert("Ingresa un monto válido");
-      return;
-    }
-
-    const walletRaw = localStorage.getItem("alke_wallet");
-
-    if (!walletRaw) {
-      alert("No se encontró la billetera");
-      return;
-    }
-
-    const wallet = JSON.parse(walletRaw);
-
-    wallet.balance = wallet.balance + amount;
-
-    localStorage.setItem("alke_wallet", JSON.stringify(wallet));
-
-    // Mostrar mensaje de éxito
-    $("#deposit-alert").removeClass("d-none");
-
-    // Limpiar input
-    $("#deposit-amount").val("");
-  });
-
-  // UX extra: ocultar alert cuando el usuario empieza a escribir de nuevo
+  // UX: Hide alert when user starts typing again
   $("#deposit-amount").on("input", function () {
-    $("#deposit-alert").addClass("d-none");
+      $("#deposit-alert").addClass("d-none");
   });
-
-});

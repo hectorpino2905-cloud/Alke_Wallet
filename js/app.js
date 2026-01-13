@@ -33,6 +33,7 @@ $(document).ready(function () {
 
   // Update balance in DOM
   $("#wallet-balance").text(`$${wallet.balance.toLocaleString('es-CL')}`);
+  
   renderTransactions();
 });
 
@@ -81,8 +82,12 @@ $(document).ready(function () {
       
       // Visually update balance if on the same screen 
       $("#wallet-balance").text(`$${currentWallet.balance.toLocaleString('es-CL')}`);
+
+      // Update transactions table
+      renderTransactions();
   });
-  renderTransactions();
+
+  
   // UX: Hide alert when user starts typing again
   $("#deposit-amount").on("input", function () {
       $("#deposit-alert").addClass("d-none");
@@ -167,8 +172,11 @@ $(document).ready(function () {
       // B: Update balance in navbar
       $("#wallet-balance").text(`$${currentWallet.balance.toLocaleString('es-CL')}`);
       $(".available-balance").text(`$${currentWallet.balance.toLocaleString('es-CL')}`);
+
+      // Update transactions table
+      renderTransactions();
   });
-  renderTransactions();
+  
 
   // UX: Display balance in input help text on page load
   if (wallet) {
@@ -181,6 +189,9 @@ $(document).ready(function () {
     // If we are not on the transactions page, exit the function
     if ($tableBody.length === 0) return;
 
+    // Clear the table first
+    $tableBody.empty();
+
     // 1. Read wallet data
     const walletData = JSON.parse(localStorage.getItem("alke_wallet"));
     
@@ -188,12 +199,9 @@ $(document).ready(function () {
     if (!walletData || !walletData.transactions || walletData.transactions.length === 0) {
         $tableBody.append('<tr><td colspan="4" class="text-center">No hay movimientos registrados.</td></tr>');
         return;
-    }
+    }    
 
-    // 3. Clear table just in case
-    $tableBody.empty();
-
-    // 4. Loop through the transactions array (we use reverse to show the most recent first)
+    // 3. Loop through the transactions array (we use reverse to show the most recent first)
     walletData.transactions.reverse().forEach(tx => {
         // Conditional styles: green for deposit, red for payment/send
         const isDeposit = tx.type === 'deposit';
@@ -202,7 +210,7 @@ $(document).ready(function () {
         const amountColor = isDeposit ? 'text-success' : 'text-danger';
         const amountPrefix = isDeposit ? '+' : '-';
 
-        const row = `
+        const row = ` 
             <tr>
                 <td>${tx.date}</td>
                 <td>${tx.description}</td>

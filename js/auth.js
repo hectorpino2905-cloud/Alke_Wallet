@@ -63,7 +63,7 @@ $(document).ready(function() {
             console.warn("Invalid credentials");
             $('#email').addClass('is-invalid');
             $('#password').addClass('is-invalid');
-            alert("Error: Invalid credentials. Try admin@alke.com / 123");
+            alert("Error: Credenciales incorrectas. Prueba con admin@alke.com / 1234");
         }
     });
 });
